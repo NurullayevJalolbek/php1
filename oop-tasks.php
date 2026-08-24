@@ -68,7 +68,9 @@ class Car
     public function brake($km): string
     {
         $this->speed -= $km;
-        if ($this->speed < 0) {
+        if ($this->speed <= 0) {
+            $this->speed = 0; // Tezlik 0 dan tushib ketmasligi uchun uni 0 ga tenglab qo'yish kerak:
+
             return "The car {$this->brand} ({$this->model}) is fully stoped. <br>";
         }
         return "Braked to [{$km} km/h]. Current speed: {$this->speed} km/h";
