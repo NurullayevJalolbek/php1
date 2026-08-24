@@ -69,7 +69,7 @@ class Car
     {
         $this->speed -= $km;
         if ($this->speed < 0) {
-            return "The car {$this->brand} ({$this->model}) is fully stoped. <br>";
+            return "The car {$this->brand} ({$this->model}) is fully stopped. <br>";
         }
         return "Braked to [{$km} km/h]. Current speed: {$this->speed} km/h";
     }
