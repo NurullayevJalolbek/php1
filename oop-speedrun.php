@@ -1,6 +1,8 @@
 <?php 
 declare(strict_types=1);
 
+use Dom\Text;
+
 /* class Car {
     public string $brand;
     public string $model;
@@ -125,3 +127,33 @@ class Programmer extends Worker
 $coder = new Programmer("Bilol");
 echo $coder->calculateSalary() . '<br>';
 */
+
+interface PaymentSystem {
+    public function getStatus(int|float $amount): string;
+}
+
+trait SetHistory
+{
+    public function getSystemLog(string $message): void
+    {
+        echo "SYSTEM LOG: {$message} <br>";
+    }
+}
+
+class Click implements PaymentSystem {
+    use SetHistory;
+    public function __construct(public readonly string $transactionId) 
+    {
+    }
+    
+    public function getStatus(int|float $amount): string
+    {   
+       
+       $this->getSystemLog("Transaction {$this->transactionId} is started.");
+       return "Succesful payment. <br>";
+    }
+}
+
+$click = new Click('345');
+
+echo $click->getStatus(250);
