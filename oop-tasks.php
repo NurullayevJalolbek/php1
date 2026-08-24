@@ -43,11 +43,45 @@ class User
 
 $user1 = new User('Sardor', 'sardor007@gmail.com', 16);
 
-echo $user1->isAdult();
+echo $user1->isAdult() . '<br>';
 
 $user2 = new User('Ali', 'ali2004@gmail.com', 22);
 
-echo $user2->isAdult();
+echo $user2->isAdult() . '<br>';
+
+
+
+class Car 
+{
+    private int $speed = 0;
+    
+    public function __construct(private string $brand, private string $model)
+    {
+    }
+
+    public function accelerate($km): string
+    {
+        $this->speed += $km;
+        return "Accelerated to [{$km} km/h]. Current speed: {$this->speed} km/h";
+    }
+
+    public function brake($km): string
+    {
+        $this->speed -= $km;
+        if ($this->speed < 0) {
+            return "The car {$this->brand} ({$this->model}) is fully stoped. <br>";
+        }
+        return "Braked to [{$km} km/h]. Current speed: {$this->speed} km/h";
+    }
+
+}
+
+$car1 = new Car('Porsche', 'Carrera 911');
+
+echo $car1->accelerate(100) . '<br>';
+echo $car1->brake(35) . '<br>';  
+echo $car1->brake(70) . '<br>';  
+
 
 
 
