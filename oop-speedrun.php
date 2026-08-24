@@ -128,7 +128,7 @@ $coder = new Programmer("Bilol");
 echo $coder->calculateSalary() . '<br>';
 */
 
-interface PaymentSystem {
+/* interface PaymentSystem {
     public function getStatus(int|float $amount): string;
 }
 
@@ -156,4 +156,43 @@ class Click implements PaymentSystem {
 
 $click = new Click('345');
 
-echo $click->getStatus(250);
+echo $click->getStatus(250); */
+
+interface HardwareMonitorInterface 
+{
+    public function checkStatus(int $temperature): string;
+}
+
+trait AlertFormatter 
+{
+    public function formatAlert(string $hardwareName, string $message): string
+    {
+        return "ALERT - {$hardwareName}: {$message}";
+    }
+}
+
+class GpuMonitor implements HardwareMonitorInterface 
+{
+    use AlertFormatter;
+
+    public function __construct(public readonly string $gpuModel) 
+    {
+    }
+
+    public function checkStatus(int $temperature): string 
+    {
+        if ($temperature > 85) {
+            return $this->formatAlert($this->gpuModel, "Critical overheating!");
+        }
+
+        return "Temperature of videocart {$this->gpuModel} is normal. <br>"; 
+    }
+
+}
+
+$model1 = new GpuMonitor("NVIDIA GeForce MX250");
+echo $model1->checkStatus(86) . '<br>';
+
+$model2 = new GpuMonitor("NVIDIA GeForce GTX 970");
+echo $model2->checkStatus(70) . '<br>';
+
