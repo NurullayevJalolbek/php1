@@ -42,3 +42,39 @@ unset($db1);
 $db2 = new Database("host2", "ss23");
 
 
+class BankAccount 
+{
+    private float $balance = 0.0;
+
+    public function deposit(int $amount): void
+    {
+        $this->balance += $amount;
+        echo "Success! Your balance is {$this->balance} <br>";
+    }
+
+    public function withdraw(int $amount): void
+    {
+        if ($amount > $this->balance) {
+            throw new Exception("insufficient funds");
+        } else {
+            $this->balance -= $amount;
+            echo "Success! <br>";
+        }
+    }
+
+    public function getBalance(): float
+    {
+        return $this->balance;
+    }
+}
+
+$account1 = new BankAccount();
+$account1->deposit(1000);
+
+try {
+    $account1->withdraw(1500);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+echo $account1->getBalance(); 
