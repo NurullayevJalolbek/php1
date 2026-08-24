@@ -1,7 +1,7 @@
 <?php 
 declare(strict_types=1);
 
-class Car {
+/* class Car {
     public string $brand;
     public string $model;
     
@@ -78,3 +78,50 @@ try {
 }
 
 echo $account1->getBalance(); 
+
+echo '<br>';
+
+class Vehicle 
+{
+    public function __construct(protected string $brand)
+    {
+
+    }
+
+}
+
+class Bus extends Vehicle 
+{
+    public function honk(): string 
+    {
+        return "Bus [{$this->brand}] honks: beep <br>";
+    }
+}
+
+
+$bus1 = new Bus("Yutong");
+echo $bus1->honk();
+ 
+abstract class Worker
+{
+    const WORKING_HOURS = 8;
+
+    public function __construct(protected string $name) 
+    {
+    }
+
+    abstract public function calculateSalary() :float;
+} 
+
+class Programmer extends Worker 
+{
+    private float $hourlyRate = 15.5;
+    public function calculateSalary(): float
+    {
+        return self::WORKING_HOURS * $this->hourlyRate;       
+    }
+}
+
+$coder = new Programmer("Bilol");
+echo $coder->calculateSalary() . '<br>';
+*/
