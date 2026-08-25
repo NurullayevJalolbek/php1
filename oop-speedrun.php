@@ -158,7 +158,7 @@ $click = new Click('345');
 
 echo $click->getStatus(250); */
 
-interface HardwareMonitorInterface 
+/* interface HardwareMonitorInterface 
 {
     public function checkStatus(int $temperature): string;
 }
@@ -194,5 +194,52 @@ $model1 = new GpuMonitor("NVIDIA GeForce MX250");
 echo $model1->checkStatus(86) . '<br>';
 
 $model2 = new GpuMonitor("NVIDIA GeForce GTX 970");
-echo $model2->checkStatus(70) . '<br>';
+echo $model2->checkStatus(70) . '<br>'; */
+
+/* 
+interface Deliverable 
+{
+    public function startDelivery(string $cityName): void;
+}
+
+trait Trackable 
+{
+    public function trackLog(string $text): void
+    {
+        echo "[System tracking]: {$text} <br>";
+    }
+}
+
+abstract class BaseDelivery 
+{
+    public static int $deliveryCount = 0;
+
+    public function __construct(public string $itemId) 
+    {
+        self::$deliveryCount++;
+    }
+
+    
+
+    
+}
+
+class DroneDelivery extends BaseDelivery implements Deliverable
+{   
+    use Trackable;
+    public function startDelivery(string $cityName): void
+    {
+        $this->trackLog("Item {$this->itemId} is set <br>");
+        echo "Drone sent to {$cityName} <br>";
+    }
+}
+
+$drone1 = new DroneDelivery('2223');
+$drone1->startDelivery('Tashkent');
+
+
+$drone2 = new DroneDelivery('112');
+$drone2->startDelivery('Samarkand');
+
+echo BaseDelivery::$deliveryCount; */
 
