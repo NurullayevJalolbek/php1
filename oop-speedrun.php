@@ -1,7 +1,6 @@
 <?php 
+use php1\User;
 declare(strict_types=1);
-
-use Dom\Text;
 
 /* class Car {
     public string $brand;
@@ -243,3 +242,6 @@ $drone2->startDelivery('Samarkand');
 
 echo BaseDelivery::$deliveryCount; */
 
+
+
+spl

@@ -1,5 +1,5 @@
 <?php 
-namespace php1\User;
+namespace php1;
 declare(strict_types=1);
 
 class User 

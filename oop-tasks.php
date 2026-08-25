@@ -1,89 +1,120 @@
 <?php
 declare(strict_types=1);
 
-class Product {
-    
-    public string $name;
-    public float $price;
-    public function getInfo(): string
-    {
-        return "Mahsulot: {$this->name}, Narxi: {$this->price} so'm";
-    }
-}
-
-$product1 = new Product();
-
-$product1->name = 'Keyboard';
-$product1->price = 20;
-echo $product1->getInfo() . '<br>';
-
-$product2 = new Product();
-
-$product2->name = 'Mouse';
-$product2->price = 10;
-echo $product2->getInfo() . '<br>';
-
-
-
-class User 
+class Student
 {
-    public function __construct(private string $name, private readonly string $email, private int $age)
-    {
-    }
+    private ?int $age = null;
 
-    public function isAdult(): bool
+    public function __construct(private readonly string $studentId, private string $name) 
     {
-        if ($this->age >= 18) {
-            return true;
-        } else {
-            return false;
-        }
     } 
-}
 
-$user1 = new User('Sardor', 'sardor007@gmail.com', 16);
-
-echo $user1->isAdult() . '<br>';
-
-$user2 = new User('Ali', 'ali2004@gmail.com', 22);
-
-echo $user2->isAdult() . '<br>';
-
-
-
-class Car 
-{
-    private int $speed = 0;
-    
-    public function __construct(private string $brand, private string $model)
+    public function setAge(int $age): void
     {
-    }
-
-    public function accelerate($km): string
-    {
-        $this->speed += $km;
-        return "Accelerated to [{$km} km/h]. Current speed: {$this->speed} km/h";
-    }
-
-    public function brake($km): string
-    {
-        $this->speed -= $km;
-        if ($this->speed <= 0) {
-            $this->speed = 0; // Tezlik 0 dan tushib ketmasligi uchun uni 0 ga tenglab qo'yish kerak:
-
-            return "The car {$this->brand} ({$this->model}) is fully stopped. <br>";
+        if ($age < 7 || $age > 60) {
+            throw new Exception("Yaroqsiz yosh kiritildi. <br>");
+        } else {
+             $this->age = $age;
         }
-        return "Braked to [{$km} km/h]. Current speed: {$this->speed} km/h";
     }
 
+    public function getInfo(): string
+    {   
+        return "ID: [{$this->studentId}], Talaba: [{$this->name}], Yoshi: [{$this->age}]. <br>";
+    }
 }
 
-$car1 = new Car('Porsche', 'Carrera 911');
+$student1 = new Student('235363', 'Amir');
 
-echo $car1->accelerate(100) . '<br>';
-echo $car1->brake(35) . '<br>';  
-echo $car1->brake(70) . '<br>';  
+$student2 = new Student('47900', 'Samir');
 
+try {
+    $student1->setAge(3);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
+try {
+    $student2->setAge(21);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
+echo $student1->getInfo();
+echo $student2->getInfo();
 
+//2
+
+class BankAccount 
+{
+    public function __construct(public readonly string $accountNumber, private string $ownerName, private ?float $balance = 0)
+    {
+
+    }
+
+    public function deposit(float $amount): void
+    {
+        if ($amount <= 0) {
+           echo "Deposit 0 dan katta bolishi kerak! <br>";
+        } else {
+        $this->balance += $amount;
+        }
+    }
+
+    public function withdraw(float $amount): void
+    {
+        if ($amount > $this->balance) {
+            echo "Mablag' yetarli emas! <br>";
+        } else {
+        $this->balance -= $amount;
+        }
+    }
+
+    public function getBalance(): string
+    {
+        return "User: [{$this->ownerName}]. Joriy balans: [{$this->balance}] so'm. <br>";
+    }
+}
+
+$account1 = new BankAccount('22', 'Bilol', 200);
+
+$account1->deposit(23);
+$account1->withdraw(22223);
+
+echo $account1->getBalance();
+
+//3
+ 
+class Product 
+{
+    public function __construct(private string $title, private float $price)
+    {
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setDiscount(int $percentage): void
+    {
+        if (!($percentage >= 1 && $percentage <= 100)) {
+            echo "Xato! Chegirmaning qiymati 1-100% bo'lishi kerak! <br>";
+        } else {
+            $this->price -= $this->price*($percentage/100);
+        }
+    }
+    
+    public function getProductCard(): string 
+    {
+        return "Mahsulot nomi: «{$this->title}», Joriy narxi {$this->getPrice()}$. <br>";
+    }
+}
+
+$product1 = new Product('Phone', 100);
+
+$product1->setDiscount(42);
+
+echo $product1->getProductCard();
+
+echo PHP_VERSION;
