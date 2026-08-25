@@ -117,4 +117,3 @@ $product1->setDiscount(42);
 
 echo $product1->getProductCard();
 
-echo PHP_VERSION;
