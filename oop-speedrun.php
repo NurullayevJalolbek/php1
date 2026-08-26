@@ -1,5 +1,4 @@
 <?php 
-use php1\User;
 declare(strict_types=1);
 
 /* class Car {
@@ -242,6 +241,31 @@ $drone2->startDelivery('Samarkand');
 
 echo BaseDelivery::$deliveryCount; */
 
+abstract class Animal
+{
+    abstract public function makeSound(): string;
+}
+
+class Cat extends Animal 
+{
+    public function makeSound(): string
+    {
+        return 'Meow';
+    }
+}
+
+class Dog extends Animal 
+{
+    public function makeSound(): string
+    {
+        return 'Gav';
+    }
+}
+
+/* $animal = new Cat();
+echo $animal->makeSound() . '<br>';
+
+$animal = new Dog();
+echo $animal->makeSound() . '<br>'; */
 
 
-spl

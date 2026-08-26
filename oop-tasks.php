@@ -1,119 +1,179 @@
 <?php
-declare(strict_types=1);
+declare(strict_types=1); 
 
-class Student
+class User 
 {
-    private ?int $age = null;
-
-    public function __construct(private readonly string $studentId, private string $name) 
+    public function __construct(protected string $name, protected readonly string $email)
     {
-    } 
-
-    public function setAge(int $age): void
-    {
-        if ($age < 7 || $age > 60) {
-            throw new Exception("Yaroqsiz yosh kiritildi. <br>");
-        } else {
-             $this->age = $age;
-        }
     }
 
     public function getInfo(): string
-    {   
-        return "ID: [{$this->studentId}], Talaba: [{$this->name}], Yoshi: [{$this->age}]. <br>";
+    {
+        return "Foydalanuvchi: {$this->name}, Email: {$this->email}. <br>";
     }
 }
 
-$student1 = new Student('235363', 'Amir');
+class Admin extends User 
+{   
+    public function __construct(string $name, string $email, private string $role = 'Admin')
+    {
+        parent::__construct($name, $email);
+        $this->role = $role;
+    }
+    public function deleteUser(string $userName): string
+    {
+        return "{$userName} tizimdan o'chirildi. <br>";
+    }
 
-$student2 = new Student('47900', 'Samir');
-
-try {
-    $student1->setAge(3);
-} catch (Exception $e) {
-    echo $e->getMessage();
 }
 
-try {
-    $student2->setAge(21);
-} catch (Exception $e) {
-    echo $e->getMessage();
+class Student extends User 
+{
+    public function submitHomework(string $lessonName): string
+    {
+        return "{$this->name} {$lessonName} darsi bo'yicha vazifani topshirdi. <br>";
+    }
 }
 
-echo $student1->getInfo();
-echo $student2->getInfo();
+$admin = new Admin('Ali', 'aliadmin007@gmail.com');
+$student = new Student('Vali', 'studentvali11@gmail.com');
+
+echo $admin->getInfo();
+echo $student->getInfo();
+
+
+echo $admin->deleteUser('sardorrr');
+echo $student->submitHomework('physics');
 
 //2
 
-class BankAccount 
+class Animal 
 {
-    public function __construct(public readonly string $accountNumber, private string $ownerName, private ?float $balance = 0)
+    function __construct(protected string $name)
     {
-
     }
 
-    public function deposit(float $amount): void
+    public function makeSound(): string
     {
-        if ($amount <= 0) {
-           echo "Deposit 0 dan katta bolishi kerak! <br>";
-        } else {
-        $this->balance += $amount;
-        }
-    }
-
-    public function withdraw(float $amount): void
-    {
-        if ($amount > $this->balance) {
-            echo "Mablag' yetarli emas! <br>";
-        } else {
-        $this->balance -= $amount;
-        }
-    }
-
-    public function getBalance(): string
-    {
-        return "User: [{$this->ownerName}]. Joriy balans: [{$this->balance}] so'm. <br>";
+        return "Hayvon qanaqadur ovoz chiqarmoqda. <br>";
     }
 }
 
-$account1 = new BankAccount('22', 'Bilol', 200);
+class Dog extends Animal
+{
+    public function makeSound(): string 
+    {
+        return "Vov-vov! <br>";
+    }
+}
 
-$account1->deposit(23);
-$account1->withdraw(22223);
+class Cat extends Animal
+{
+    public function makeSound(): string 
+    {
+        return "Miyov-miyov! <br>";
+    }
+}
+//shunaqa qilsa boladi
+$dog = new Dog('Kuchuk');
+echo $dog->makeSound();
 
-echo $account1->getBalance();
+$cat = new Cat('Mushuk');
+echo $cat->makeSound();
+
+//yoki shunaqa qaysi biri overriding
+$animal = new Dog('Kuchuk');
+echo $animal->makeSound();
+
+$animal= new Cat('Mushuk');
+echo $animal->makeSound();
+
 
 //3
- 
-class Product 
+class Employee
 {
-    public function __construct(private string $title, private float $price)
+    protected string $name;
+    protected float $baseSalary;
+
+    public function __construct(string $name, float $baseSalary)
     {
+        $this->name = $name;
+        $this->baseSalary = $baseSalary;
     }
 
-    public function getPrice(): float
+    public function calculateSalary(): float
     {
-        return $this->price;
-    }
-
-    public function setDiscount(int $percentage): void
-    {
-        if (!($percentage >= 1 && $percentage <= 100)) {
-            echo "Xato! Chegirmaning qiymati 1-100% bo'lishi kerak! <br>";
-        } else {
-            $this->price -= $this->price*($percentage/100);
-        }
-    }
-    
-    public function getProductCard(): string 
-    {
-        return "Mahsulot nomi: «{$this->title}», Joriy narxi {$this->getPrice()}$. <br>";
+        return $this->baseSalary;
     }
 }
 
-$product1 = new Product('Phone', 100);
+class Developer extends Employee
+{   
+    private float $bonus;
 
-$product1->setDiscount(42);
+    public function __construct(string $name, float $baseSalary, float $bonus)
+    {
+        parent::__construct($name, $baseSalary);
+        $this->bonus = $bonus;
+    }
+}
 
-echo $product1->getProductCard();
+class Manager extends Employee
+{
+    public function calculateSalary(): float
+    {
+        return $this->baseSalary*1.2;
+    }
+}
+
+$developer = new Developer('Ali', 810, 35);
+
+$manager = new Manager('Amir', 1000);
+
+echo $developer->calculateSalary() . '<br>';
+echo $manager->calculateSalary() . '<br>';
+
+//4
+
+class Notification
+{
+    public function send(string $message): string
+    {
+        return "Xabar yuborildi: {$message}. <br>";
+    }
+}
+
+class SmsNotification extends Notification
+{
+    public function send(string $message): string
+    {
+        return "SMS orqali yuborildi: {$message}. <br>";
+    }
+}
+
+class EmailNotification extends Notification
+{
+    public function send(string $message): string
+    {
+        return "Email orqali yuborildi: {$message}. <br>";
+    }
+}
+
+class TelegramNotification extends Notification
+{
+    public function send(string $message): string
+    {
+        return "Telegram orqali yuborildi: {$message}. <br>";
+    }
+}
+
+$notifications = [
+    new SmsNotification(),
+    new EmailNotification(),
+    new TelegramNotification()
+];
+
+foreach ($notifications as $notification) {
+    echo $notification->send("Dars soat 18:00 da boshlanadi. <br>");
+}
 
